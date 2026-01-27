@@ -155,6 +155,19 @@ class GameScene(private val rootService: RootService) : BoardGameScene
     } }
 
     /**
+     * Label displaying the number of cards remaining in the first player's draw stack
+     */
+    private val drawStack1CountLabel = Label(
+        posX = 100,
+        posY = 960,
+        width = 130,
+        height = 30,
+        text = "0",
+        alignment = Alignment.CENTER,
+        font = Font(16.0, Color.WHITE, fontWeight = Font.FontWeight.BOLD)
+    )
+
+    /**
      * Displays the draw Stack of the second player
      */
     private val drawStack2 = CardStack<CardView>(
@@ -166,6 +179,19 @@ class GameScene(private val rootService: RootService) : BoardGameScene
     ).apply { onMouseClicked = {
         rootService.playerActionService.drawCard()
     } }
+
+    /**
+     * Label displaying the number of cards remaining in the second player's draw stack
+     */
+    private val drawStack2CountLabel = Label(
+        posX = 100,
+        posY = 210,
+        width = 130,
+        height = 30,
+        text = "0",
+        alignment = Alignment.CENTER,
+        font = Font(16.0, Color.WHITE, fontWeight = Font.FontWeight.BOLD)
+    )
 
     /**
      * Button, that passes onto the next player
@@ -215,6 +241,21 @@ class GameScene(private val rootService: RootService) : BoardGameScene
     }
 
     /**
+     * Label to display error messages for invalid moves
+     */
+    private val errorMessageLabel = Label(
+        posX = 1920/2 - 200,
+        posY = 1080/2 + 100,
+        width = 400,
+        height = 50,
+        text = "",
+        alignment = Alignment.CENTER,
+        font = Font(18.0, Color.RED, fontWeight = Font.FontWeight.BOLD)
+    ).apply {
+        isVisible = false
+    }
+
+    /**
      * Adds all components to the scene
      */
     init {
@@ -231,7 +272,10 @@ class GameScene(private val rootService: RootService) : BoardGameScene
             startTurnButton,
             drawStack2,
             drawStack1,
-            exchangeCardButton
+            drawStack1CountLabel,
+            drawStack2CountLabel,
+            exchangeCardButton,
+            errorMessageLabel
         )
     }
 
@@ -365,6 +409,11 @@ class GameScene(private val rootService: RootService) : BoardGameScene
         playStack2.peek().showFront()
         playerOneName.text = game.players[0].name
         playerTwoName.text = game.players[1].name
+
+        // Update draw stack count labels
+        drawStack1CountLabel.text = game.players[0].drawStack.size.toString()
+        drawStack2CountLabel.text = game.players[1].drawStack.size.toString()
+
         drawStack1.add(
             CardView(
                 posX = 0,
@@ -456,13 +505,17 @@ class GameScene(private val rootService: RootService) : BoardGameScene
         checkNotNull(game)
         if(game.activePlayer == 0){
             playerOneHandCard.add(cardMap[game.players[0].handCards.last()] as CardView)
+            drawStack1CountLabel.text = game.players[0].drawStack.size.toString()
         } else if(game.activePlayer == 1){
             playerTwoHandCard.add(cardMap[game.players[1].handCards.last()] as CardView)
+            drawStack2CountLabel.text = game.players[1].drawStack.size.toString()
         }
         if(game.players[0].drawStack.isEmpty()){
             drawStack1.isVisible = false
+            drawStack1CountLabel.isVisible = false
         } else if(game.players[1].drawStack.isEmpty()){
             drawStack2.isVisible = false
+            drawStack2CountLabel.isVisible = false
         }
     }
 
@@ -495,11 +548,33 @@ class GameScene(private val rootService: RootService) : BoardGameScene
             game.players[0].handCards.forEach{
                     card -> playerOneHandCard.add(cardMap[card] as CardView)
             }
+            drawStack1CountLabel.text = game.players[0].drawStack.size.toString()
         } else if(game.activePlayer == 1){
             playerTwoHandCard.clear()
             game.players[1].handCards.forEach{
                     card -> playerTwoHandCard.add(cardMap[card] as CardView)
             }
+            drawStack2CountLabel.text = game.players[1].drawStack.size.toString()
         }
+    }
+
+    /**
+     * Displays an error message when an invalid move is attempted.
+     * The message will be shown for 3 seconds and then automatically hidden.
+     *
+     * @param message The error message to display
+     */
+    override fun refreshInvalidMove(message: String) {
+        errorMessageLabel.text = message
+        errorMessageLabel.isVisible = true
+
+        // Hide the error message after 3 seconds using a timer
+        val timer = java.util.Timer()
+        timer.schedule(object : java.util.TimerTask() {
+            override fun run() {
+                errorMessageLabel.isVisible = false
+                errorMessageLabel.text = ""
+            }
+        }, 3000)
     }
 }

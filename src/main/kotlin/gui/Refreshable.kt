@@ -44,5 +44,11 @@ interface Refreshable {
      */
     fun refreshAfterEndGame(winner : String?){}
 
+    /**
+     * This displays an error message when an invalid move is attempted,
+     * providing feedback to the player without throwing an exception.
+     */
+    fun refreshInvalidMove(message: String){}
+
 
 }
