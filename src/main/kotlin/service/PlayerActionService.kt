@@ -8,14 +8,6 @@ import entity.*
 
 class PlayerActionService(private val rootService: RootService) : AbstractRefreshingService() {
 
-    /**
-     * Checks if a card can be played on a stack without actually playing it.
-     * Used to validate moves before executing them.
-     *
-     * @param card The card to check
-     * @param stack The stack to check against
-     * @return true if the card can be played on the stack, false otherwise
-     */
     private fun canPlayCard(card: Card, stack: Card): Boolean {
         val valueDiff1 = (card.value.ordinal - stack.value.ordinal + 13) % 13
         val valueDiff2 = (stack.value.ordinal - card.value.ordinal + 13) % 13
@@ -28,7 +20,7 @@ class PlayerActionService(private val rootService: RootService) : AbstractRefres
     }
 
     /**
-     * playCard describes the action, when a player tries to place a card in the middle
+     * This function describes the action, when a player tries to place a card in the middle
      * It checks, if the conditions are met to place the card onto one of the stacks
      *
      * Preconditions:
