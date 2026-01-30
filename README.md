@@ -1,7 +1,3 @@
-# SoPra Projekt 1 (Einzelprojekt)
+# UPPER-LOWER-GAME
 
-## Wichtige Links
-
-* Aktuelle Informationen zu diesem SoPra: https://sopra.cs.tu-dortmund.de/wiki/sopra/25a/start
-* Beispielprojekt Kartenspiel War: https://sopra-gitlab.cs.tu-dortmund.de/internal/bgw-war
-* Weitere Links: https://sopra.cs.tu-dortmund.de/wiki/infos/links/
+README coming soon
