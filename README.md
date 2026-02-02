@@ -97,7 +97,7 @@ This creates a `distribution.zip` file in the `public/` directory.
 4. **Take turns** playing cards:
    - Select a card from your hand
    - Click on one of the two central play stacks to place your card
-5. **Draw cards** when your turn ends
+5. **Draw cards** or **Shuffle cards** if you aren't able to place any card in your hand
 6. **Game ends** when one player runs out of cards
 7. **Winner** is determined by who has fewer total cards remaining
 
