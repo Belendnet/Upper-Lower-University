@@ -165,18 +165,6 @@ The **Observer Pattern** is implemented via the `Refreshable` interface to keep 
 - **Group ID**: `edu.udo.cs.sopra`
 - **Version**: 1.0
 
-## 🤝 Contributing
-
-This appears to be an educational project (SoPra - Software Praktikum). Follow your course guidelines for contributions.
-
-## 📄 License
-
-Please check with the project owner for licensing information.
-
-## 🐛 Known Issues
-
-- Some JVM error log files (`hs_err_pid*.log`) are tracked in the repository and should be gitignored
-- These can be safely deleted and added to `.gitignore`
 
 ## ✨ Credits
 
